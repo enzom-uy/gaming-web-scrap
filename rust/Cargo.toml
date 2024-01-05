@@ -9,3 +9,5 @@ edition = "2021"
 reqwest = { version = "0.11", features = ["json"] }
 tokio = { version = "1", features = ["full"] }
 scraper = "0.18.1"
+headless_chrome = {git = "https://github.com/rust-headless-chrome/rust-headless-chrome", features = ["fetch"]}
+thirtyfour = "0.31.0"

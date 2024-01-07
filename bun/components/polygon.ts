@@ -8,15 +8,11 @@ export const scrapPolygon = async ({
     browser,
 }: ScrapperProps): Promise<void> => {
     try {
-        await page.setViewport({ height: 4000, width: 320 })
-
         console.log(`Navigating to ${polygonUrl}. Starting scrap process...`)
 
         await page
-            .goto(polygonUrl, { waitUntil: 'networkidle0' })
+            .goto(polygonUrl, { waitUntil: 'networkidle0', timeout: 200 })
             .catch(async (err: string) => {
-                console.log('Ha ocurrido un error.')
-                await browser.close()
                 throw new Error(err)
             })
             .then((res) => res)
@@ -42,7 +38,7 @@ export const scrapPolygon = async ({
                     const polygonArticle: Article = {
                         title,
                         authors,
-                        img_url: imgUrl,
+                        imgUrl,
                         url,
                     }
 
@@ -57,11 +53,8 @@ export const scrapPolygon = async ({
             'Scrapping process done. Here are the results: \n',
             articles
         )
-
-        await browser.close()
     } catch (err) {
         console.log('Ha ocurrido un error. Salteando el paso de Polygon.')
         console.log(err)
-        await browser.close()
     }
 }

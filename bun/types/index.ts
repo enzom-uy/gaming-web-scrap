@@ -2,8 +2,8 @@ import type { Browser, Page } from 'puppeteer'
 
 export interface Article {
     title: string
-    img_url?: string | undefined | null
-    authors: string
+    imgUrl?: string | undefined | null
+    authors?: string
     url: string
 }
 

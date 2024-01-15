@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import type { Article, ScrapperProps } from '../types'
+import type { Article, ScrapperProps, SiteUrl } from '../types'
 
-const polygonUrl = 'https://polygon.com/gaming'
+const polygonUrl: SiteUrl = 'https://polygon.com/gaming'
 
 export const scrapPolygon = async ({
     page,
@@ -11,7 +11,7 @@ export const scrapPolygon = async ({
         console.log(`Navigating to ${polygonUrl}. Starting scrap process...`)
 
         await page
-            .goto(polygonUrl, { waitUntil: 'networkidle0', timeout: 200 })
+            .goto(polygonUrl, { waitUntil: 'networkidle0' })
             .catch(async (err: string) => {
                 throw new Error(err)
             })

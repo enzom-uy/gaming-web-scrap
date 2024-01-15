@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import type { Article, ScrapperProps } from '../types'
+import type { Article, ScrapperProps, SiteUrl } from '../types'
 
-const eurogamerUrl = 'https://www.eurogamer.net/archive/news'
+const eurogamerUrl: SiteUrl = 'https://eurogamer.net/archive/news'
 
 export const scrapEurogamer = async ({
     page,

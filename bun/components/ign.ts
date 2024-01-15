@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import type { Article, ScrapperProps } from '../types'
+import type { Article, ScrapperProps, SiteUrl } from '../types'
 
-const ignUrls = [
+const ignUrls: SiteUrl[] = [
     'https://ign.com/pc',
     'https://ign.com/playstation',
     'https://ign.com/xbox',
@@ -27,7 +27,7 @@ export const scrapIgn = async ({
     console.log(`Navigating to https://ign.com/. Starting scrap process...`)
     for (const url of ignUrls) {
         try {
-            await page.goto(url, { waitUntil: 'networkidle0', timeout: 200 })
+            await page.goto(url, { waitUntil: 'networkidle0' })
 
             const articles: Article[] = await page.evaluate(() => {
                 const articles = document.querySelectorAll('.content-item')

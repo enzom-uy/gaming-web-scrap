@@ -1,6 +1,10 @@
 import puppeteer from 'puppeteer'
+import type { Browser, Page } from 'puppeteer'
 
-export const initBrowser = async () => {
+export const initBrowser = async (): Promise<{
+    browser: Browser
+    page: Page
+}> => {
     console.log('Launching Chromium headless instance...')
     const browser = await puppeteer
         .launch({

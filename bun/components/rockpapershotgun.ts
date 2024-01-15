@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import type { Article, ScrapperProps } from '../types'
+import type { Article, ScrapperProps, SiteUrl } from '../types'
 
-const rpsUrl = 'https://www.rockpapershotgun.com/news'
+const rpsUrl: SiteUrl = 'https://rockpapershotgun.com/news'
 
 export const scrapRockPaperShotgun = async ({
     page,
@@ -10,7 +10,7 @@ export const scrapRockPaperShotgun = async ({
     console.log(`Navigating to ${rpsUrl}. Starting scrap process...`)
 
     try {
-        await page.goto(rpsUrl, { waitUntil: 'networkidle0', timeout: 200 })
+        await page.goto(rpsUrl, { waitUntil: 'networkidle0' })
 
         const articles: Article[] = await page.evaluate(() => {
             const articles = document.querySelectorAll('.summary_list li')

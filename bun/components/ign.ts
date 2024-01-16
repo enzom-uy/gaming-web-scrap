@@ -27,7 +27,7 @@ export const scrapIgn = async ({
     console.log(`Navigating to https://ign.com/. Starting scrap process...`)
     for (const url of ignUrls) {
         try {
-            await page.goto(url, { waitUntil: 'networkidle0' })
+            await page.goto(url, { waitUntil: 'networkidle0', timeout: 0 })
 
             const articles: Article[] = await page.evaluate(() => {
                 const articles = document.querySelectorAll('.content-item')
@@ -60,7 +60,6 @@ export const scrapIgn = async ({
             })
 
             const uniqueArticles = removeDuplicates(articles, 'title')
-            console.log(uniqueArticles)
             return uniqueArticles
         } catch (err) {
             console.log(`An error occurred when trying to scrap Ign.`, err)

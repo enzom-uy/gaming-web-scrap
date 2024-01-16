@@ -6,14 +6,11 @@ export const jwtAuth = async (
     req: Request,
     res: Response,
     next: NextFunction
-) => {
+): Promise<Response<any, Record<string, any>> | undefined> => {
     const token = req.headers.authorization?.split('Bearer ')[1]
-    const signedToken = jwt.sign({}, process.env.SECRET_TOKEN!)
 
     try {
-        console.log('Token del cliente:', token)
-        console.log('Token del secret:', process.env.SECRET_TOKEN)
-        jwt.verify(signedToken, process.env.SECRET_TOKEN!)
+        jwt.verify(token!, process.env.SECRET_TOKEN!)
         next()
     } catch (error) {
         console.log(error)

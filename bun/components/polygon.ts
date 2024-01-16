@@ -6,12 +6,12 @@ const polygonUrl: SiteUrl = 'https://polygon.com/gaming'
 export const scrapPolygon = async ({
     page,
     browser,
-}: ScrapperProps): Promise<void> => {
+}: ScrapperProps): Promise<Array<Article | null> | undefined> => {
     try {
         console.log(`Navigating to ${polygonUrl}. Starting scrap process...`)
 
         await page
-            .goto(polygonUrl, { waitUntil: 'networkidle0' })
+            .goto(polygonUrl, { waitUntil: 'networkidle0', timeout: 0 })
             .catch(async (err: string) => {
                 throw new Error(err)
             })
@@ -34,12 +34,16 @@ export const scrapPolygon = async ({
                     const url = article
                         .querySelector('h2 > a')!
                         .getAttribute('href')!
+                    const datetime = article
+                        .querySelector('time.c-byline__item')!
+                        .getAttribute('datetime')!
 
                     const polygonArticle: Article = {
                         title,
                         authors,
                         imgUrl,
                         url,
+                        datetime,
                     }
 
                     return polygonArticle
@@ -49,10 +53,7 @@ export const scrapPolygon = async ({
             })
         })
 
-        console.log(
-            'Scrapping process done. Here are the results: \n',
-            articles
-        )
+        return articles
     } catch (err) {
         console.log('Ha ocurrido un error. Salteando el paso de Polygon.')
         console.log(err)

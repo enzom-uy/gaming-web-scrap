@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 import { type Page } from 'puppeteer'
 
@@ -13,7 +14,7 @@ export const scrapArticleContent = async ({
     website,
     page,
     articleUrl,
-}: Props) => {
+}: Props): Promise<void> => {
     let article
     switch (website) {
         case 'ign':
@@ -21,17 +22,26 @@ export const scrapArticleContent = async ({
 
             article = await page.evaluate(
                 ({ articleUrl }) => {
+                    const cleanHtml = (html: string): string => {
+                        const cleanedHtml = html.replace(/ class="[^"]*"/g, '')
+
+                        return cleanedHtml
+                    }
                     const title = document?.querySelector('h1')?.textContent
-                    if (articleUrl.includes('.com/videos/')) {
-                        const content = document?.querySelector(
-                            'div[itemprop="description"]'
-                        )?.innerHTML
+                    const articleIsAVideo = articleUrl.includes('.com/videos/')
+
+                    if (articleIsAVideo) {
+                        const content = cleanHtml(
+                            document.querySelector(
+                                'div[itemprop="description"]'
+                            )!.innerHTML
+                        )
                         return { title, content }
                     } else {
                         const paragraphs = Array.from(
                             document?.querySelectorAll('p')
                         )
-                            .map((p) => p.innerHTML)
+                            .map((p) => cleanHtml(p.innerHTML))
                             .filter((p) => p !== '')
 
                         return { title, paragraphs }

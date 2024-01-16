@@ -5,6 +5,7 @@ export interface Article {
     imgUrl?: string | undefined | null
     authors?: string
     url: string
+    datetime?: string
 }
 
 export interface ScrapperProps {

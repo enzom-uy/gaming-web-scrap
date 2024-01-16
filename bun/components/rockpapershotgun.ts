@@ -28,12 +28,16 @@ export const scrapRockPaperShotgun = async ({
                 const authors = article
                     .querySelector('.metadata .author')!
                     .textContent!.trim()!
+                const datetime = article
+                    .querySelector('p.published_at time')!
+                    .getAttribute('datetime')!
 
                 const rpsArticle: Article = {
                     title,
                     url,
                     imgUrl,
                     authors,
+                    datetime,
                 }
 
                 return rpsArticle

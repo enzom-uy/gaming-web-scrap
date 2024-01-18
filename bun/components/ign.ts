@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { SCRAPPING_TIMEOUT } from '../config/variables'
 import type { Article, ScrapperProps, SiteUrl } from '../types'
 
 const ignUrls: SiteUrl[] = [
@@ -22,12 +23,14 @@ const removeDuplicates = (array: Article[], prop: 'title'): Article[] => {
 
 export const scrapIgn = async ({
     page,
-    browser,
 }: ScrapperProps): Promise<Article[] | undefined> => {
     console.log(`Navigating to https://ign.com/. Starting scrap process...`)
     for (const url of ignUrls) {
         try {
-            await page.goto(url, { waitUntil: 'networkidle0', timeout: 0 })
+            await page.goto(url, {
+                waitUntil: 'networkidle0',
+                timeout: SCRAPPING_TIMEOUT,
+            })
 
             const articles: Article[] = await page.evaluate(() => {
                 const articles = document.querySelectorAll('.content-item')

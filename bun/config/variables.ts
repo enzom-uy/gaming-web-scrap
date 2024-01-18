@@ -1,0 +1,1 @@
+export const SCRAPPING_TIMEOUT = 300000

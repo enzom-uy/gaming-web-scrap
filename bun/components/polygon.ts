@@ -1,17 +1,20 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { SCRAPPING_TIMEOUT } from '../config/variables'
 import type { Article, ScrapperProps, SiteUrl } from '../types'
 
 const polygonUrl: SiteUrl = 'https://polygon.com/gaming'
 
 export const scrapPolygon = async ({
     page,
-    browser,
 }: ScrapperProps): Promise<Array<Article | null> | undefined> => {
     try {
         console.log(`Navigating to ${polygonUrl}. Starting scrap process...`)
 
         await page
-            .goto(polygonUrl, { waitUntil: 'networkidle0', timeout: 0 })
+            .goto(polygonUrl, {
+                waitUntil: 'networkidle0',
+                timeout: SCRAPPING_TIMEOUT,
+            })
             .catch(async (err: string) => {
                 throw new Error(err)
             })

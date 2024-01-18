@@ -11,6 +11,7 @@ export const jwtAuth = async (
 
     try {
         jwt.verify(token!, process.env.SECRET_TOKEN!)
+        console.log('Verified')
         next()
     } catch (error) {
         console.log(error)

@@ -1,11 +1,13 @@
+import type { Source } from '@prisma/client'
 import type { Browser, Page } from 'puppeteer'
 
-export interface Article {
+export interface Headline {
     title: string
-    imgUrl?: string | undefined | null
-    authors?: string
     url: string
+    imgUrl: string
+    authors?: string
     datetime?: string
+    source: Source
 }
 
 export interface ScrapperProps {

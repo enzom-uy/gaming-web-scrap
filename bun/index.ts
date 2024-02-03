@@ -6,8 +6,8 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import { jwtAuth } from './components/middlewares/auth'
 
-import getArticleRoute from './components/routes/getArticle'
 import { scrapAllHeadlines } from './features/scrapAllHeadlines'
+import { uploadHeadlinesToDb } from './features/uploadHeadlinesToDb'
 
 const app = express()
 const port = 3000
@@ -22,14 +22,15 @@ app.listen(port, () => {
     console.log(`Server running on port ${port}`)
 })
 
-app.use(getArticleRoute)
-
 await (async () => {
     const start = async (): Promise<void> => {
         const { browser, page } = await initBrowser()
         await page.setViewport({ height: 4000, width: 320 })
 
-        // await scrapAllHeadlines({ page, browser })
+        const { allHeadlines } = await scrapAllHeadlines({ page, browser })
+        if (allHeadlines !== null) {
+            await uploadHeadlinesToDb(allHeadlines)
+        }
         await browser.close()
     }
     await start()

@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
+}
+
+model Headline {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+
+    title        String    @unique
+    authors      String?
+    image_url    String
+    url          String
+    published_at String?
+    source       Source
+    scrapped_at  DateTime? @default(now())
+}
+
+model Article {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+
+    title       String
+    content     String
+    url         String
+    source      String
+    scrapped_at DateTime? @default(now())
+}
+
+enum Source {
+    ign
+    polygon
+    rps
+    eurogamer
+}

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { SCRAPPING_TIMEOUT } from '../config/variables'
-import type { Article, ScrapperProps, SiteUrl } from '../types'
+import type { Headline, ScrapperProps, SiteUrl } from '../types'
 
 const ignUrls: SiteUrl[] = [
     'https://ign.com/pc',
@@ -9,9 +9,9 @@ const ignUrls: SiteUrl[] = [
     'https://ign.com/nintendo',
 ]
 
-const removeDuplicates = (array: Article[], prop: 'title'): Article[] => {
+const removeDuplicates = (array: Headline[], prop: 'title'): Headline[] => {
     const seen = new Set()
-    return array.filter((item: Article) => {
+    return array.filter((item: Headline) => {
         const value = item[prop]
         if (!seen.has(value)) {
             seen.add(value)
@@ -23,7 +23,7 @@ const removeDuplicates = (array: Article[], prop: 'title'): Article[] => {
 
 export const scrapIgn = async ({
     page,
-}: ScrapperProps): Promise<Article[] | undefined> => {
+}: ScrapperProps): Promise<Headline[] | undefined> => {
     console.log(`Navigating to https://ign.com/. Starting scrap process...`)
     for (const url of ignUrls) {
         try {
@@ -32,7 +32,7 @@ export const scrapIgn = async ({
                 timeout: SCRAPPING_TIMEOUT,
             })
 
-            const articles: Article[] = await page.evaluate(() => {
+            const articles: Headline[] = await page.evaluate(() => {
                 const articles = document.querySelectorAll('.content-item')
 
                 return Array.from(articles).map((article) => {
@@ -42,20 +42,21 @@ export const scrapIgn = async ({
                         .querySelector('a.item-body')
                         ?.getAttribute('href')}`
                     const imgUrl = article
-                        .querySelector('div.item-thumbnail span img')
-                        ?.getAttribute('src')
-                        ?.replace('width=282', 'width=1920')
+                        .querySelector('div.item-thumbnail span img')!
+                        .getAttribute('src')!
+                        .replace('width=282', 'width=1920')
                         .replace(/(width=1920).*$/, '$1')
 
                     const authors = article
                         .querySelector('object[title="Author Link"]')
                         ?.textContent?.trim()
 
-                    const ignArticle: Article = {
+                    const ignArticle: Headline = {
                         title,
                         url,
                         imgUrl,
                         authors,
+                        source: 'ign',
                     }
 
                     return ignArticle

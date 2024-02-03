@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { SCRAPPING_TIMEOUT } from '../config/variables'
-import type { Article, ScrapperProps, SiteUrl } from '../types'
+import type { Headline, ScrapperProps, SiteUrl } from '../types'
 
 const rpsUrl: SiteUrl = 'https://rockpapershotgun.com/news'
 
 export const scrapRockPaperShotgun = async ({
     page,
-}: ScrapperProps): Promise<Article[] | undefined> => {
+}: ScrapperProps): Promise<Headline[] | undefined> => {
     console.log(`Navigating to ${rpsUrl}. Starting scrap process...`)
 
     try {
@@ -15,7 +15,7 @@ export const scrapRockPaperShotgun = async ({
             timeout: SCRAPPING_TIMEOUT,
         })
 
-        const articles: Article[] = await page.evaluate(() => {
+        const articles: Headline[] = await page.evaluate(() => {
             const articles = document.querySelectorAll('.summary_list li')
 
             return Array.from(articles).map((article) => {
@@ -35,12 +35,13 @@ export const scrapRockPaperShotgun = async ({
                     .querySelector('p.published_at time')!
                     .getAttribute('datetime')!
 
-                const rpsArticle: Article = {
+                const rpsArticle: Headline = {
                     title,
                     url,
                     imgUrl,
                     authors,
                     datetime,
+                    source: 'rps',
                 }
 
                 return rpsArticle

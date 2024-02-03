@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { SCRAPPING_TIMEOUT } from '../config/variables'
-import type { Article, ScrapperProps, SiteUrl } from '../types'
+import type { Headline, ScrapperProps, SiteUrl } from '../types'
 
 const eurogamerUrl: SiteUrl = 'https://eurogamer.net/archive/news'
 
 export const scrapEurogamer = async ({
     page,
-}: ScrapperProps): Promise<Article[] | undefined> => {
+}: ScrapperProps): Promise<Headline[] | undefined> => {
     console.log(`Navigating to ${eurogamerUrl}. Starting scrap process...`)
 
     try {
@@ -15,7 +15,7 @@ export const scrapEurogamer = async ({
             timeout: SCRAPPING_TIMEOUT,
         })
 
-        const articles: Article[] = await page.evaluate(() => {
+        const articles: Headline[] = await page.evaluate(() => {
             const articles = document.querySelectorAll(
                 'section.archive_list ul.summary_list li div.summary'
             )
@@ -35,7 +35,14 @@ export const scrapEurogamer = async ({
                     .querySelector('p.title a')!
                     .getAttribute('href')!
 
-                return { title, imgUrl, url }
+                const eurogamerHeadline: Headline = {
+                    title,
+                    imgUrl,
+                    url,
+                    source: 'eurogamer',
+                }
+
+                return eurogamerHeadline
             })
         })
         return articles

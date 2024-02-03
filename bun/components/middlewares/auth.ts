@@ -7,14 +7,17 @@ export const jwtAuth = async (
     res: Response,
     next: NextFunction
 ): Promise<Response<any, Record<string, any>> | undefined> => {
-    const token = req.headers.authorization?.split('Bearer ')[1]
+    const token = req.headers.authorization!.split('Bearer ')[1]
+    const signedToken = jwt.sign({}, token)
+    console.log(process.env.SECRET_TOKEN)
+    console.log(req.headers)
 
     try {
-        jwt.verify(token!, process.env.SECRET_TOKEN!)
+        jwt.verify(signedToken, process.env.SECRET_TOKEN!)
         console.log('Verified')
         next()
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return res.status(401).json({ error: 'Unauthorized.' })
     }
 }

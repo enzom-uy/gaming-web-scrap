@@ -4,7 +4,7 @@ import { scrapEurogamer } from '../components/eurogamer'
 import { scrapIgn } from '../components/ign'
 import { scrapPolygon } from '../components/polygon'
 import { scrapRockPaperShotgun } from '../components/rockpapershotgun'
-import type { Article } from '../types'
+import type { Headline } from '../types'
 
 export const scrapAllHeadlines = async ({
     page,
@@ -12,8 +12,8 @@ export const scrapAllHeadlines = async ({
 }: {
     page: Page
     browser: Browser
-}): Promise<void> => {
-    const allHeadlines: Array<Article | null> = []
+}): Promise<{ allHeadlines: Array<Headline | null> }> => {
+    const allHeadlines: Array<Headline | null> = []
 
     await Promise.all([
         await scrapPolygon({ page, browser }).then(
@@ -30,7 +30,7 @@ export const scrapAllHeadlines = async ({
         ),
     ])
 
-    function sortByDatetime(a: Article | null, b: Article | null): number {
+    function sortByDatetime(a: Headline | null, b: Headline | null): number {
         const tieneDatetimeA = 'datetime' in a!
         const tieneDatetimeB = 'datetime' in b!
 
@@ -44,6 +44,7 @@ export const scrapAllHeadlines = async ({
     }
 
     allHeadlines.sort(sortByDatetime)
-
     console.log(allHeadlines)
+
+    return { allHeadlines }
 }

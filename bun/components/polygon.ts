@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { SCRAPPING_TIMEOUT } from '../config/variables'
-import type { Article, ScrapperProps, SiteUrl } from '../types'
+import type { Headline, ScrapperProps, SiteUrl } from '../types'
 
 const polygonUrl: SiteUrl = 'https://polygon.com/gaming'
 
 export const scrapPolygon = async ({
     page,
-}: ScrapperProps): Promise<Array<Article | null> | undefined> => {
+}: ScrapperProps): Promise<Array<Headline | null> | undefined> => {
     try {
         console.log(`Navigating to ${polygonUrl}. Starting scrap process...`)
 
@@ -33,7 +33,7 @@ export const scrapPolygon = async ({
                         .textContent!.trim()
                     const imgUrl = article
                         .querySelector('img')!
-                        .getAttribute('src')
+                        .getAttribute('src')!
                     const url = article
                         .querySelector('h2 > a')!
                         .getAttribute('href')!
@@ -41,12 +41,13 @@ export const scrapPolygon = async ({
                         .querySelector('time.c-byline__item')!
                         .getAttribute('datetime')!
 
-                    const polygonArticle: Article = {
+                    const polygonArticle: Headline = {
                         title,
                         authors,
                         imgUrl,
                         url,
                         datetime,
+                        source: 'polygon',
                     }
 
                     return polygonArticle

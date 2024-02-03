@@ -8,7 +8,7 @@ export const initBrowser = async (): Promise<{
     console.log('Launching Chromium headless instance...')
     const browser = await puppeteer
         .launch({
-            executablePath: '/usr/bin/chromium-browser',
+            executablePath: '/usr/bin/chromium',
             headless: 'new',
         })
         .then((res) => {

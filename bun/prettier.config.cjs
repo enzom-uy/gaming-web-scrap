@@ -6,6 +6,7 @@ const config = {
     tabWidth: 4,
     semi: false,
     singleQuote: true,
+    plugins: ['prettier-plugin-prisma'],
 }
 
 module.exports = config

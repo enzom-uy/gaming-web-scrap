@@ -3,8 +3,8 @@
     "module": "index.ts",
     "type": "module",
     "scripts": {
-        "build": "bun build --target=bun src/index.ts --minify --splitting --outdir ./public",
-        "start": "bun run public/index.js",
+        "build": "bunx prisma generate --no-engine && bun build --target=bun src/index.ts --minify --splitting --outdir ./dist",
+        "start": "bun run dist/index.js",
         "dev": "bun run src/index.ts"
     },
     "devDependencies": {

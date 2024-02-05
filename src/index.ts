@@ -1,13 +1,9 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 const dotenv = require('dotenv')
 import cors from 'cors'
-import { initBrowser } from './components/browser'
 import express from 'express'
 import bodyParser from 'body-parser'
 import { jwtAuth } from './components/middlewares/auth'
-
-import { scrapAllHeadlines } from './features/scrapAllHeadlines'
-import { uploadHeadlinesToDb } from './features/uploadHeadlinesToDb'
 import getHeadlines from './components/routes/getHeadlines'
 
 const app = express()
@@ -21,7 +17,7 @@ app.use(jwtAuth)
 
 app.use(getHeadlines)
 
-app.listen(port, () => {
+app.listen(port,"0.0.0.0", () => {
     console.log(`Server running on port ${port}`)
 })
 

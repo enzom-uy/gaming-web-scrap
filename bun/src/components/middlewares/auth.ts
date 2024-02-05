@@ -7,9 +7,9 @@ export const jwtAuth = async (
     res: Response,
     next: NextFunction
 ): Promise<Response<any, Record<string, any>> | undefined> => {
-    const token = req.headers.authorization!.split('Bearer ')[1]
-    const signedToken = jwt.sign({}, token)
     try {
+        const token = req.headers.authorization!.split('Bearer ')[1]
+        const signedToken = jwt.sign({}, token)
         jwt.verify(signedToken, process.env.SECRET_TOKEN!)
         console.log('Verified')
         next()

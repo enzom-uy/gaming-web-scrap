@@ -9,9 +9,6 @@ export const jwtAuth = async (
 ): Promise<Response<any, Record<string, any>> | undefined> => {
     const token = req.headers.authorization!.split('Bearer ')[1]
     const signedToken = jwt.sign({}, token)
-    console.log(process.env.SECRET_TOKEN)
-    console.log(req.headers)
-
     try {
         jwt.verify(signedToken, process.env.SECRET_TOKEN!)
         console.log('Verified')

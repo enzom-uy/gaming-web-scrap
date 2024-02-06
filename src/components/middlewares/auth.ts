@@ -3,18 +3,18 @@ import type { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 
 export const jwtAuth = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
+  req: Request,
+  res: Response,
+  next: NextFunction
 ): Promise<Response<any, Record<string, any>> | undefined> => {
-    try {
-        const token = req.headers.authorization!.split('Bearer ')[1]
-        const signedToken = jwt.sign({}, token)
-        jwt.verify(signedToken, process.env.SECRET_TOKEN!)
-        console.log('Verified')
-        next()
-    } catch (error) {
-        // console.log(error)
-        return res.status(401).json({ error: 'Unauthorized.' })
-    }
+  try {
+    const token = req.headers.authorization!.split('Bearer ')[1]
+    const signedToken = jwt.sign({}, token)
+    jwt.verify(signedToken, process.env.SECRET_TOKEN!)
+    console.log('Verified')
+    next()
+  } catch (error) {
+    // console.log(error)
+    return res.status(401).json({ error: 'Unauthorized.' })
+  }
 }

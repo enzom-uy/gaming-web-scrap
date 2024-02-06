@@ -2,17 +2,17 @@ import type { Source } from '@prisma/client'
 import type { Browser, Page } from 'puppeteer'
 
 export interface Headline {
-    title: string
-    url: string
-    imgUrl: string
-    authors?: string
-    datetime?: string
-    source: Source
+  title: string
+  url: string
+  imgUrl: string
+  authors?: string
+  datetime?: string
+  source: Source
 }
 
 export interface ScrapperProps {
-    page: Page
-    browser: Browser
+  page: Page
+  browser: Browser
 }
 
 export type SiteUrl =
